@@ -1,0 +1,60 @@
+pn.2601
+
+class Solution {
+public:
+    vector<int>v;
+    bool check(int n){
+        for(int i=2;i<=sqrt(n);i++){
+            if(n%i==0){
+                return false;
+            }
+        }
+        return true;
+    }
+    void prime(){
+        v.push_back(2);
+        for(int i=3;i<=1000;i++){
+            if(check(i)){
+                v.push_back(i);
+            }
+        }
+    }
+    int maxprime(int n){
+        if(v[0]>n){
+            return 0;
+        }
+        int ans=v[0];
+        for(int i=1;i<v.size();i++){
+            if(v[i]>n){
+                return ans;
+            }
+            ans=v[i];
+        }
+        return ans;
+    }
+    bool primeSubOperation(vector<int>& nums) {
+       prime();
+       int prev=0;
+       for(int i=0;i<nums.size();i++){
+           int dif=nums[i]-prev-1;
+           int mxprime=maxprime(dif);
+           nums[i]-=mxprime;
+           prev=nums[i];
+       }
+       for(int i=1;i<nums.size();i++){
+           if(nums[i]<=nums[i-1]){
+               return false;
+           }
+       }
+       return true;
+    }
+};
+
+
+the basic idea is to make the array in such a way that every elemnet is greater than its prev one. so for that we did one thing here we keep a trackk of previous element with help of prev 
+and now calculate the diffrence b/w cur and prev one now calculate the maxprime less than the current number.
+now minus that the maxnum from the cur elelment and assign cur to the prev.
+now jsut check if it is sorted or not.
+
+for maxprime number make a vector and append the prime numbers which are ranging till 1000 number 
+simply  iterate in the vector to find maxprime.
